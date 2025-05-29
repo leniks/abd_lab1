@@ -1,0 +1,22 @@
+services:
+  postgres:
+    image: postgres:13.3
+    container_name: Snow
+    restart: always
+    environment:
+      POSTGRES_DB: "postgres"
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWORD: "123456"
+      POSTGRES_INITDB_ARGS: "--data-checksums"
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_db:/var/lib/postgresql/data
+      - ./data:/data
+      - ./cinit.sql:/docker-entrypoint-initdb.d/cinit.sql
+      - ./ddl.sql:/docker-entrypoint-initdb.d/ddl.sql
+      - ./dml.sql:/docker-entrypoint-initdb.d/dml.sql
+
+volumes:
+  postgres_db:
+    driver: local
